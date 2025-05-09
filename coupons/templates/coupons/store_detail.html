@@ -1,0 +1,17 @@
+{% extends 'coupons/base.html' %}
+{% block content %}
+<h2>Coupons from {{ store.name }}</h2>
+<div class="row">
+{% for coupon in coupons %}
+  <div class="col-md-4">
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5>{{ coupon.title }}</h5>
+        <p><strong>Code:</strong> {{ coupon.code }}</p>
+        <p>{{ coupon.description }}</p>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% endblock %}

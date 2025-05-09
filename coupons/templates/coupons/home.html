@@ -1,0 +1,52 @@
+{% extends 'coupons/base.html' %}
+{% block content %}
+<h2 class="text-center">Latest Coupons</h2>
+<div class="row">
+  {% for coupon in coupons %}
+    <div class="col-12 col-sm-6 col-md-3 my-1 p-1">
+      <div class="card position-relative border-0 h-100">
+        <div class="img-overlay">
+          {% if coupon.store.logo %}
+            <img alt="{{ coupon.store.name }}" src="{{ coupon.store.logo.url }}"
+              class="w-100 position-relative p-4" style="height: 150px; object-fit: contain;">
+          {% endif %}
+        </div>
+        <div class="card-body text-center">
+          <a href="{% url 'store_detail' coupon.store.slug %}">
+            <h5 class="card-title text-primary fw-bold">{{ coupon.store.name }}</h5>
+          </a>
+          <h6 class="card-text text-secondary fw-bold">{{ coupon.title }}</h6>
+          <p class="card-text small">{{ coupon.description }}</p>
+        </div>
+        <div class="card-footer bg-transparent text-center">
+          <button class="btn btn-sm bg-warning text-dark w-100 fw-bold" data-bs-toggle="modal" data-bs-target="#modal-{{ coupon.id }}">
+            Show Code
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for the coupon -->
+    <div class="modal fade" id="modal-{{ coupon.id }}" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-light">
+            <h5 class="modal-title">{{ coupon.title }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            {% if coupon.store.logo %}
+              <img src="{{ coupon.store.logo.url }}" class="img-fluid mb-3" style="max-height: 100px;">
+            {% endif %}
+            <div class="mb-3">
+              <span class="bg-dark text-white px-3 py-2 rounded h4">{{ coupon.code }}</span>
+              <button class="btn btn-outline-secondary ms-2" onclick="navigator.clipboard.writeText('{{ coupon.code }}')">Copy</button>
+            </div>
+            <p>{{ coupon.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}
