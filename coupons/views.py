@@ -1,11 +1,18 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
+from django.db.models import Q
 from .models import Coupon, Store
 from django.shortcuts import redirect
 
 def home(request):
-    coupons = Coupon.objects.filter(is_active=True).order_by('-created_at')[:20]
-    return render(request, 'coupons/home.html', {'coupons': coupons})
+    query = request.GET.get('q')
+    if query:
+        coupons = Coupon.objects.filter(Q(title__icontains=query) | Q(store__name__icontains=query))
+        stores = Store.objects.filter(name__icontains=query)
+    else:
+        coupons = Coupon.objects.all()
+        stores = Store.objects.all()
+    return render(request, 'coupons/home.html', {'coupons': coupons, 'stores': stores})
 
 def store_detail(request, slug):
     store = get_object_or_404(Store, slug=slug)

@@ -13,6 +13,7 @@ urlpatterns = urlpatterns = [
     # path('accounts/logout/', coupons_views.logout_view, name='logout'),
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('accounts/register/', coupons_views.register, name='register'),
+    path('store/<int:store_id>/', coupons_views.store_detail, name='store_detail'),
     path('', include('coupons.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

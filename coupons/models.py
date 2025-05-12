@@ -13,6 +13,7 @@ class Coupon(models.Model):
     title = models.CharField(max_length=255)
     code = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+    affiliate_link = models.URLField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
